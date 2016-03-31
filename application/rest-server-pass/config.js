@@ -3,5 +3,10 @@
 
 module.exports = {
     "secretKey": "12345-67890-09876-54321",
-    "mongoUrl":"mongodb://dan121-learn-node-2419567:27017/conFusion"
+    "mongoUrl":"mongodb://dan121-learn-node-2419567:27017/conFusion",
+    "facebook":{
+        clientID:"",
+        clientSecret:"",
+        callbackURL:"https://learn-node-dan121.c9users.io/facebook/callback"
+    }
 }

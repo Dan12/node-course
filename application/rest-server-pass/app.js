@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var authernicate = require("./authenticate")
+
 var mongoose = require("mongoose");
 
 var passport = require("passport");
@@ -34,6 +36,18 @@ var dishRouter = require('./routes/dishRouter');
 
 var app = express();
 
+// secure traffic only
+// middleware on all function call to all urls
+// app.all("*", function(req, res, next){
+//   // if the url is secure, proceed normally
+//   if(req.secure){
+//     return next();
+//   }
+  
+//   // if not secure, redirect to secure url
+//   res.redirect("https://"+req.hostname+":"+app.get("secPort")+req.url)
+// })
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -45,14 +59,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-var User = require("./models/user");
+// var User = require("./models/user");
 // initialize passport
 app.use(passport.initialize());
 // strategy exported by user model, which is created in passport-local-mongoose
-passport.use(new LocalStrategy(User.authenticate()));
+// passport.use(new LocalStrategy(User.authenticate()));
 // two methods that are made use of in passport module
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 
 app.use(express.static(path.join(__dirname, 'public')));

@@ -1,0 +1,72 @@
+Mongoose Population
+-NoSQL databases don't have support for realtionships
+-All documents are expected to be self contained
+-Mongodb allows references to other documents
+    -can be done using ObjectIds
+-Users and comments
+    -Store the user's id instead of the author name
+    -postedBy field:
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    }
+-Mongoose population
+    -replacing paths within a document with documents from another collection
+    -Construct a compound document, document within a document
+    -Cross refence with ObjectIds
+    -Dishes.find({}).populate('comments.postedBy')
+    -mongoose fetches the comment from the document and inserts it in the user document before sending it back
+    -will cause the query to take a longer time, don't use unless necessary
+    
+
+HTTPS and Secure Communication
+-HTTP used to send the username and password, sent in plain text
+-Cryptography
+    -Symmetric key encryption
+        -Both sender and reciever have the same secret key
+        -Only used once conncetion has been established
+    -Make brute forcing not worth the attackers while
+    -Public key encryption
+        -Message is encrypted with a public key and decrypted with matching private key
+        -Don't use it for everything because it it compuationally expensive
+        -Send the secrect key once connection established and use that
+    -SSL (Secure Sockets Layer)/ TLS (Transport Layer Security)
+        -Cryptigraphic protocols
+        -Use a combination of public and symmetric cryptography
+        -Maintain privacy and integrity (assure that message is not tampered with)
+        -Handshake process
+            -Client sends request for connection
+            -Server sends the public key and the certificate
+            -Client verifys the integrity of the certificate and generates a pre-master secret and encrypts it with the sever's public key
+            -Now the client and the server can generate a session key, which will enable symmetric key encryption
+            -Messages can be sent back and forth
+-Generating keys
+    -use openssl for generating test keys, self signed keys
+    -For production, get keys and certificate from certificate authority (Verisign, Thawte)
+        -Good book for this: https://www.pearsonhighered.com/program/Kurose-Computer-Networking-A-Top-Down-Approach-Plus-Modified-Mastering-Engineering-with-Pearson-e-Text-Access-Card-Package-7th-Edition/PGM337165.html
+    -generate self signed keys:
+        -openssl genrsa 1024 > private.key
+        -openssl req -new -key private.key -out cert.csr
+        -openssl x509 -req -in cert.csr -signkey private.key -out certificate.pem
+        
+OAuth
+-Oauth1 and Oauth2: use Social network accounts to log into third party apps
+-Oauth1 protocol: first evolved from Twitter
+-Oauth2: simplifying client development
+-Oauth2 roles
+    -Resource owner: user authorizes a client application to access their account
+    -Client application: websites that wants access to the resource server to obtain information about you
+    -Resource server: server hosting the protected data about the user
+    -Authorization Server: server that issues the access token to the client application to request resources from the resource server
+    -Client application: use the token to authorize the user
+-Oauth2 tokens
+    -issued by the Authorization server to the client application
+    -Every client application has to register itself to the service provider
+    -Get the client app id and the client secret
+    -When sending requests to the service provider, send the app id, the secret, and the redirect url (callback url from service provider)
+-Authorization code grant approach
+    -used when the client is a web server (maintain secrecy of id and secret)
+    -service returns long lived access token
+-Passport facebook module
+    -passport strategy for authenticating with facebook
+    -Setup facebook strategy

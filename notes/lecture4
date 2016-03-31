@@ -70,3 +70,34 @@ OAuth
 -Passport facebook module
     -passport strategy for authenticating with facebook
     -Setup facebook strategy
+-Other strategies
+    -http://mherman.org/blog/2013/11/10/social-authentication-with-passport-dot-js/#.Vua24dV94UE
+    -https://github.com/jaredhanson/passport-google-oauth
+    -https://github.com/jaredhanson/passport-twitter
+    
+    
+Backend as a service(BaaS)
+-Building your own backend approach is cumbersome
+-BaaS is aimed at packaging this repeatable service
+-Provides a bridge between the front end and various cloud backends through a unified API and SDK
+-Parse.com was a pioneer in this, bought by facebook
+-Free developers from constructing the backend
+-Targeted at mobile and web developers
+-Typicall BaaS
+    -Push notifications
+    -File storage and Sharing
+    -Social network integration
+    -messaging and chat
+    -user management
+    -usage analyisis tools
+    -Build and execute business logic
+    -API for cloud based storage
+    -Device synchronization
+    -Secure connectivity
+    -Auto generation of basic services
+-Pros and Cons
+    -Pros
+        -Ongoing support, prebuilt components that have been tested, less effort, continued support
+    -Cons
+        -Black box, vendor lock-in (no way of retrieving data), loss of flexibility (constrained by what is provided), additional training for vendor-specific APIs
+        

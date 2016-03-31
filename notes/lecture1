@@ -1,0 +1,161 @@
+Full stack web development
+Three tier archetecture
+    -Presentation
+    -Bussiness logic layer
+        -Ruby, python, java
+        -Talk to data and server side rendering
+    -Data access layer
+Full stack javascript development
+-Use javascript to target all three layers
+    -Angular JS on frontend, nodejs for business logic, and MongoDB and JSON for data storage
+-Ionic framework for javascript: http://ionicframework.com/
+
+
+Node.js is a javascript runtime built on Chrome V8 engine
+Node uses an event-drive, non-blocking I/O model
+    -Lightweight and efficient
+    -Asynchronous
+When you write node code you are using the node core library
+Made so that many 3rd party developers create node modules
+Node package manager (NPM) manages node modules
+Package contains js files and package.json (describes the module and its dependancies)
+
+
+Organizing code in modules
+Javascript does not define a standard library
+    -Different from java,c,c++
+CommonJS API fills the gap
+    -Module format for libraries
+    -Node follows the CommonJS module system
+Node Modules
+    -Every file in Node is its own module
+    -The module variable lets you access the current module definition in the file
+    -The module.exports variable determines what will be exported from the module to be used in other modules
+    -The require function is used to import modules
+    -Function used as a variable
+    -Functions passed as parameters and returned from other functions
+To execute js file, type in node followed by filename (.js not needed)
+Callbacks and error handleing in node modules
+-2 Features of JavaScript
+    -First class functions
+        -a function can be used and treated as a variables
+        -useful for supporting callbacks
+    -Closures
+        -A function defined inside another function has access to all variables declared in the outer function (outer scope)
+        -Inner function will continue will still have access to all the variables from the outer function when the outer function returns
+-Synchronous vs Asynchronous
+    -Synch: long running computation blocks the rest of the computations
+    -Asynch: computation 1 branches to computation 3 and long running I/O compuation and have a callback on the long running compuation to compuation 2
+-Node environment
+    -Single event loop
+    -blocking function is called with callback
+    -Event loop is never blocked
+    -Request queue
+-Node Modules
+    -File based modules
+    -Core Modules
+        -Part of core Node, small core
+        -Path, fs, os, util
+    -External Node modules
+        -Third party node modules
+        -Installed using NPM in node_modules folder
+-Using Modules
+    -File based: require("./mod_name"), relative path
+    -Core and external: require("mod_name"), looks in node_modules
+-Node modules: package.json, index.js (starting point, can have multiple files), node_modules folder (modules used by module)
+-Package.json
+    -Semantic Versioning: <major version>.<minor version>.<patch>
+    -Exact: npm install express@4.0.0
+    -Patch acceptable: npm install express@"~4.0.0"
+    -Minor version acceptable express@"^4.0.0"
+  
+    
+-HTTP Protocol
+    -Client-server communication
+    -Network operations cause unexpected delays
+    -Hypertext Transfer Protocol
+        -Retrieving inter-linked documents (hypertext)
+        -HEAD
+        -GET
+    -Browser: method (GET)
+    -Server: reply
+    -HTTP request mesage
+        -Request line (details of the request message) (method, url, version)
+        -Headers (additional information) (header field names and value)
+        -Body (actual data being sent if any) (xml, base64 format)
+        -Always a blank line between header and body
+    -HTTP response method
+        -Status line: response code:200 OK
+        -Headers: connection:keep-alive, content-type: text/html (tells how to process body)
+        -Blank line
+        -Body content: (<html>...) (XML, JSON)
+-Node HTTP Module
+    -Core networking module
+    -Use the module to construct a server
+    -var http = require('http')
+    -Create server with callback (request, response)
+    -var server = http.createServer(function(req, res){});
+        -req.headers
+        -response message is constructed by setting res.
+        -res.setHeader("Content-Type","text/html");
+    -Port is the minumum required parameter
+    -server.listen(port,...);
+    -Using path Module
+        -Path.resolve(""): absolute path
+        -path.extname(filePath): extension of filePath
+    Using fs module
+        -fs.exists(filePath,callback(exists)), check if file exists
+        -fs.createReadStream(filePath).pip(res): pipe file into response variable
+    -Curl
+        -curl http://...
+
+
+Express
+-Express is a fast and minimal web framework for Node.js
+-Third party middleware to extend functionality
+    -Parse JSON and cookies
+-Part of the MEAN stack (Mongo, Express, Angular, Node) for a fullstack web application
+-npm install express --save
+    -app = express();
+    -app.use(function(req,res,next){})
+    -server = http.createServer(app);
+-Middleware
+    -Morgan for logging
+    -app.use(morgan('dev'))
+    -Static web resources: app.use(express.staic(_dirname+"/public"))
+        -_dirname give full path
+    -Order in which the middleware is applied to the request message is the order in which they are specified in the server file
+-app.listen(port,...)-shorthand for http.startServer() used by express
+Representational State Transfers (REST)
+-Web services: someone supplies service, someone else consumes service
+-Two common approaches
+    -SOAP (Simple Object Access Protocol)
+        -XML
+    -REST
+        -Web standards
+        -XML or JSON
+        -Simpler than SOAP
+-REST: software architecture for distributed hypermedia systems
+-4 Basic design priciples
+    -HTTP methods
+    -Stateless
+    -Expose directory structures
+    -Transfer using XML or JSON
+-Draws inspiration from HTTP
+-URI (Uniform Resoure Indicator): Addressable resources
+-CRUD operations
+    -HTTP GET->READ
+    -POST->CREATE
+    -PUT->UPDATE
+    -DELETE->DELETE
+-Server side should not track the client state (for scaleability)
+-Client side tracks its own state (cookies)
+Express REST
+-express has application routes for get,post,put,delete
+    -app.all("/uri", function())-applied to all methods
+    -app.get("/dishes/:dishId",function(){ req.params.dishId}
+-Middleware
+    -Body Parser
+        -app.use(bodyParser.json());
+        -req.body-body is converted to javascript object
+-Express Router create a mini-Express application

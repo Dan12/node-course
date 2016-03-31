@@ -1,0 +1,117 @@
+REST API w/ express and mongo
+-Example
+    -Get request comes in
+        -Query databse
+        -Send back the reply
+    -Post request
+        -Create resource
+        -Send reply back with status of creation
+-Handle HTTP request with appropriate CRUD operations on databse using data from the HTTP request body
+
+
+Basic Authentication
+-HTTP user agent provides a username and password with a request
+    -The server can use the information to authenticate the client
+-A server may challenge the client
+    -401 Unauthorized message and authentication request
+    -client includes the authentication credentials in the response header
+    -Authorization header
+        -username and password concatenated into a string
+        -The resulting string is encoded into base64
+        -This is included in every request thereafter
+-Express authentication
+    -use some middleware
+    -every time a middleware completes, it calls next
+    -user authentication checks the users credentials
+        -if authenticated, proceed as usual
+        -else, unauthenicated and the next is called with an error and bypasses all the other calls
+
+
+Express Sessions and Cookies
+-Cookies are ways for servers to track clients and send small bits of information
+-Express sessions are a way of managing user sessions on the server side in a meaningful way
+-HTTP is a stateless protocol, each request is treated like a new session
+-HTTP cookies: serve important uses to rememeber users
+    -Cookie is a small peice of data sent from web server to client and stored on the client side
+    -Each subsequent request from the client side includes the cookie in the request header
+    -Set-Cookie:xyz sent in header from server and Client remebers the cookie
+    -res.cookie(name,value,options)
+    -express has cookie-parser middleware
+    -express can use req.cookies to get information about the user
+-Ordinary cookies could easily be forged
+    -Server can sign a cookie
+    -Any modification to the cookie will make the cookie invalid to the server
+    -Cookie, options, signed:true
+    -req.signedCookies.name
+-Browser Sessions used to track more information about the current session
+-Express sessions is a middleware to track the users on the server side
+    -Uses a combination of a cookie with a session ID to be used as a key to access storage on the server side
+    -cookies can only store a small amount of information
+    -Session information is stored on server side in memory
+    -Permanent storage either on client side or in mongo storage
+    -Distributed session store used across multiple servers
+-Use express session
+    -also require session-file-store to use the local file store
+    -when a client request comes in, information is made available in req.session.name
+-Express session options
+    -cookie: allows session id to be se
+    -genid: generates the session id, default id uuid
+    -name: name of the session id cookie to be set
+    -resave: forces session to be saved back to the store even if note modified in the request
+    -saveUninitialized: if true forces a newly created session to be saved in the session store
+    -secret: specfies signing secret
+    -store: specfies the store on server side to permananatly rememeber the information about the session
+    
+User authentication witb Passport
+-cookie based authentication does not scale very well
+-token based authentication is gaining popularity
+-cookies become a problem when you are using an api that is used on several different devices
+-Token based authentication
+    -servers are increasingly exporting REST APIs and the API endpoints are being accessed by more and more devices, specifically mobile devices
+    -mobile devices don't handle cookies very well and session based authentication
+    -mobile apps are sharing information with other mobile apps, so sharing authentication information is difficult with cookies and sessions
+    -Cross-origin resource sharing, some applications are accessing your APIs without accessing your site
+    -Cross-site request forgery: need to maintain security, difficult with cookies
+-How token based authentication works
+    -server validates your credentials and sends you a signed token that the sever can verify if sent back
+    -client keeps token and sends token back with each request
+    -token encapulates all the information that the server needs to remeber you
+    -server validates token to confirm that you can access specific data on the server
+    -very scalable
+    -Need a standard
+        -JSON web tokens, store information in JSON format
+        -encoded in IETF(Internet Engineering Task Force) RFC(Request for Comments) 7519*
+        -JSON web tokens are self contained
+        -JSON web tokens are shareable, another service can act on you behalf if they have your token
+        -All done in a secure manner
+-JSON web tokens
+    -Header: how the JSON web token is encoded, algorithm used for encoding the token
+    -Payload: carries information, send token with information that you can latter decode
+    -Signature: encapulates and validates the token, server uses a secret and is used to encode the token, manipilating the token in any way invalidates the token which the server can check using the signature
+-jsonwebtoken module
+    -sign() and verify() methods
+-Passport
+-passport module, authentication middleware
+    -modular and flexible package, supports many different authentication strategies
+        -Local strategy: authenticating your own users
+        -OpenID
+        -Oauth: facebook, twitter, google+, for user authentication for many 3rd party authentication
+    -manages a lot of the intricacies of authentication
+    -passport.authenticate("local"), add to any route as middleware
+-Passport-Local module
+    -passport strategy for authenticating a user with a username and password
+    -passport.use(strategy);
+        -LocalStrategy()
+-Passport-local-Mongoose
+    -mongoose plugin to simplify building a username and password login
+    -supports a user schema in mongoose for managing users
+    -assumes two fields (username and password)
+    -password is encrpyted using salt and hashing before storing the information in the database
+-passport.use(new LocalStrategy(User.authenticate()));: passport-local-mongoose has authenticate method with, when passed to LocalStrategy, takes care of user authentication with passport
+-passport.serializeUser(User.serializeUser());: serialize User if using express sessions with passport
+
+Mongo REPL to modify database
+-mongo
+-use <db name>
+-db.<collection name>.find().pretty()
+-db.users.update({username:"<name>"},{$set:{admin:true}});

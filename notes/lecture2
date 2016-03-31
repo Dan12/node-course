@@ -1,0 +1,101 @@
+Express Generator
+-quick scaffolding tool to generate an express application skeleton
+-npm install express-generator -g
+-express <App name>
+    -generate files under <App Name> folder
+    -app.js: starting application
+    -package.json: dependancies
+    -public: static resources
+    -route: application routes
+    -views: template engine views
+
+
+MongoDB
+-Databases use for storing structured information
+-various operations such as querying and instering
+-Structured query language (SQL), relational databses
+-SQL databses had limitations, NoSQL (Not only SQL) databases because popular to address the challenges of SQL databases
+-MongoDB is a NoSQL databases
+-NoSQL
+    -Document databases: MongoDB
+    -Key-value databases (Redis)
+    -Column-family databases (Cassandra)
+    -Graph databases (Neo4J)
+-Document databases
+    -Built around documents
+    -Self contained peices of information
+    -Collection: collection of documents
+    -Databases: set of collections
+-MongoDB
+    -scalability
+        -availability vs consistency
+        -Partition tolerance
+    -Ease of deployment
+        -No object-relational mapping required
+        -NoSQL: objects and documents can be quickly matched together
+    -Document database
+        -Server can support multiple databses
+        -Document is effectively a JSON document with dome additional features
+        -Document is basic unit in database
+        -MongoDB stores documents in BSON format (Binary JSON format)
+            -Supports length prefix on each value
+            -easy to skip over field
+            -information about type of the field
+            -Primative types like UTC data time and raw binary can be stored
+    -ObjectId
+        -every document in Mongo has a unique Id
+        -Default ObjectId created by Mongo when you insert a document
+        -Stored in "_id" field
+        -12 byte field
+            -timestamp (4 bytes) (resolution of 1 second)
+            -Machine Id (3 bytes)
+            -Mongo process id (2 bytes)
+            -Increment field (3 bytes) (multiple documents created in 1 second)
+        -Easily query id field to get time of creation
+-Install mongo
+    -mongodb.org, make data folder
+    -for cloud9: echo 'mongod --bind_ip=$IP --dbpath=data --nojournal --rest "$@"'
+    -type mongo after starting mongod for mogno REPL
+-Mongo commands
+    -db: current database
+    -use <db name>: switch/create new db
+    -db.help();: help
+    -db.<collection>.insert(<JSON data>);: create new collection with some data (add document to collection)
+    -db.<collection>.find();: get items from the collection
+    -.pretty(): makes JSON more readable
+    -var id = new ObjectId(): create new ObjectId
+    -id.getTimestamp(): extract timestamp from ObjectId
+    
+    
+Node and MongoDB
+-Node MongoDB Driver
+    -high level API for node application interacting with MongoDB server
+    -npm insall mongodb --save
+    -Connecting to MongoDB
+    -Inserting, deleting, updating, and querying
+    -Those are only a few of the methods available from MongoDB driver
+    
+    
+Mongoose
+-MongoDB stores data in documents
+-Documents have no predefined structure
+-Want to support structure, use Mongoose
+-Mongoose allows you to define how to stucture your models
+    -Object Data Model
+    -Adds structure through a schema
+-Schema
+    -Specifies the structure of the data
+    -Specifies the field and the type of data (String, Number, Date)
+    -Schema is use to create a Model function
+    -Can think of model as a row in relational database
+    -New schema
+        -required: true/false
+        -unique: true/false
+        -timestamps: true/false
+    -var dishes = mongoose.model("Dish",schema)
+        -Name of model (the collection that is created as the plural of that name)
+        -Schema for model
+-Mongoose allows you to embed Documents inside other schemas
+    -A comments schema inside a dishes schema
+    -Can use embeded schemas for relations similar to has-many
+    

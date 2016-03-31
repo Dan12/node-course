@@ -4,7 +4,7 @@ var passport = require("passport");
 var User = require("../models/user");
 // managing functions for user and verifying user identities
 var Verify = require("./verify");
-var mongoose = require('mongoose');
+//var mongoose = require('mongoose');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {

@@ -28,7 +28,7 @@ dishRouter.route("/")
     });
 })
 
-.post(Verify.verifyOrdinaryUser, function(req,res,next){
+.post(Verify.verifyOrdinaryUser, Verify.verifyAdminUser, function(req,res,next){
     //res.end("Post received, name: "+req.body.name+" desc: "+req.body.description);
                 // put the body into the database
     Dishes.create(req.body, function(err, dish){
@@ -47,7 +47,7 @@ dishRouter.route("/")
     });
 })
 
-.delete(Verify.verifyOrdinaryUser, function(req,res,next){
+.delete(Verify.verifyOrdinaryUser, Verify.verifyAdminUser, function(req,res,next){
     // res.end("Delete received");
     // remove matches all the dishes ({}), so all dishes deleted
     Dishes.remove({}, function(err, resp){

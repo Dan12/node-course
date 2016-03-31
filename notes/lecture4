@@ -100,4 +100,16 @@ Backend as a service(BaaS)
         -Ongoing support, prebuilt components that have been tested, less effort, continued support
     -Cons
         -Black box, vendor lock-in (no way of retrieving data), loss of flexibility (constrained by what is provided), additional training for vendor-specific APIs
-        
+-Loopback
+    -BaaS
+    -npm install strongloop -g
+    -slc loopback
+    -slc loopback:model
+    -node . to start server
+    -Setup datasource
+        -slc loopback:datasource
+    -Setup access controls
+        -slc loopback:acl
+        -close access to all endpoints
+    -Define relationships
+        -slc loopback:relation
